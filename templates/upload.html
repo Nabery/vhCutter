@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload and convert video files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            width: 50%;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .dropzone {
+            border: 2px dashed #ccc;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .dropzone:hover {
+            background-color: #f0f0f0;
+        }
+
+        .file-name {
+            margin-top: 10px;
+        }
+
+        .time-selector {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .time-selector label {
+            margin-right: 10px;
+        }
+
+        .time-selector input {
+            width: 80px;
+            margin-right: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .time-selector input:focus {
+            outline: none;
+            border: 1px solid #007bff;
+        }
+
+        .time-selector input[type="number"]::-webkit-inner-spin-button,
+        .time-selector input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .time-selector input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+   </head>
+  <script>
+  function allowDrop(event) {
+    event.preventDefault();
+  }
+
+  function handleFileSelect(event) {
+    event.preventDefault();
+    const fileInput = document.getElementById('file-input');
+    const file = event.dataTransfer.files[0] || fileInput.files[0];
+    displayFileName(file);
+  }
+
+  function displayFileName(file) {
+    const fileNameElement = document.getElementById('file-name');
+    fileNameElement.innerHTML = `Selected file: ${file.name}`;
+  }
+  </script>
+<body>
+    <h1>Upload and convert video files</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <div class="dropzone" ondrop="handleFileSelect(event)" ondragover="allowDrop(event)">
+        <input type="file" id="file-input" name="file" accept=".mxf" onchange="displayFileName(this.files[0])">
+        <label for="file-input">Drag and drop a video file here, or click to select a file.</label>
+        </div>
+        <p class="file-name" id="file-name"></p>
+        <div class="time-selector">
+            <label for="start-time">Start time (in seconds):</label>
+            <input type="number" id="start-time" name="start_time" min="0" step="1" value="0">
+            <label for="duration">Duration (in seconds):</label>
+            <input type="number" id="duration" name="duration" min="1" step="1" value="10">
+        </div>
+        <br><br>
+        <input type="submit" value="Upload and convert">
+    </form>
+</body>
+</html>
+
